@@ -1,6 +1,5 @@
 <?php 
     session_start();
-    var_dump($_SESSION['pseudo']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,8 +10,17 @@
     <title>Document</title>
 </head>
 <body>
-    <p>Bonjour <?= $_SESSION['pseudo'] ?></p>
-    <a href="page3.php">page3</a>
+    <?php
+        if(!empty($_SESSION['pseudo'])){ 
+    ?>
+            <p>Bonjour <?= $_SESSION['pseudo'] ?></p>
+            <a href="page3.php">page3</a>
+
+        <?php }else {
+            
+            echo "C'est qui ?";
+        }
+        ?>
 </body>
 </html>
 

@@ -1,9 +1,22 @@
 <?php 
     session_start();
-    if(isset($_POST['pseudo']) && !empty($_POST['pseudo'])){
-        $_SESSION['pseudo'] = $_POST['pseudo'];
-        var_dump($_SESSION['pseudo']);
-        header('Location: page2.php');
+    include('Connect.php');
+    
+    if(isset($_POST['submit'])){ 
+        
+        if(isset($_POST['pseudo']) && !empty($_POST['pseudo'])){
+            $_SESSION['pseudo'] = htmlentities($_POST['pseudo']);
+            
+            $reponse = $cnx->query('select * from user where pseudo = "'.htmlentities($_POST['pseudo']).'"');
+            $results = $reponse->fetch(PDO::FETCH_OBJ);
+
+            if($results != false){
+                header('Location: page2.php');
+            }else{
+                /*header('Location: index.php')*/;
+            }
+            
+        }
     }
 ?>
 <!DOCTYPE html>
@@ -16,8 +29,8 @@
 </head>
 <body>
     <form action="" method="post">
-        <input type="text" name="pseudo" placeholder="pseudo">
-        <input type="submit" value="valider">
+        <input type="text" name="pseudo" placeholder="pseudo" value="<?php if(isset($_POST['pseudo'])){ echo $_POST['pseudo']; } ?>">
+        <input type="submit" name="submit" value="valider">
     </form>
     <a href="page2.php">page2</a>
     <a href="page3.php">page3</a>
