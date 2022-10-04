@@ -1,36 +1,25 @@
+<?php 
+    session_start();
+    if(isset($_POST['pseudo']) && !empty($_POST['pseudo'])){
+        $_SESSION['pseudo'] = $_POST['pseudo'];
+        var_dump($_SESSION['pseudo']);
+        header('Location: page2.php');
+    }
+?>
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sécurité</title>
+    <title>Document</title>
 </head>
 <body>
-    <?php include('Connect.php'); ?>
-    <table>
-        <form action="" method="post">
-            <tr>
-                <td><input type="text" name="pseudo" placeholder="pseudo"></td>
-            </tr>
-            <tr>
-                <td><input type="password" name="password" placeholder="mot de passe"></td>
-            </tr>
-            <tr><td><input type="submit" name="submit"></td></tr>
-        </form>
-    </table>
-    <?php
-         if(isset($_POST['submit'])){
-            if(isset($_POST['pseudo']) && isset($_POST['password'])){
-                $pseudo = utf8_decode($_POST['pseudo']);
-                $password = $_POST['password'];
-
-                $reponse = $cnx->query('select * from user where pseudo = "'.$pseudo.'" and password = "'.$password.'"');
-                $results = $reponse->fetchall(PDO::FETCH_OBJ);
-
-                var_dump($results, $pseudo, $password);
-            }
-         }
-    ?>
+    <form action="" method="post">
+        <input type="text" name="pseudo" placeholder="pseudo">
+        <input type="submit" value="valider">
+    </form>
+    <a href="page2.php">page2</a>
+    <a href="page3.php">page3</a>
 </body>
 </html>
