@@ -14,11 +14,16 @@
         if(!empty($_SESSION['pseudo'])){ 
     ?>
             <p>Bonjour <?= $_SESSION['pseudo'] ?></p>
-            <a href="page3.php">Déconnexion</a>
+            <form action="page3.php" method="post">
+                <input type="text" name="nom" placeholder="nom"><br>
+                <input type="text" name="age" placeholder="age"><br>
+                <input type="submit" name="submit">
+            </form>
+            <a href="deconnect.php">Déconnexion</a>
 
         <?php }else {
             
-            echo "C'est qui ?";
+            header('Location: index.php');
         }
         ?>
 </body>

@@ -2,7 +2,7 @@
     session_start();
     include('Connect.php');
     
-    //Connexion
+    //---------------------------------------Connexion-----------------------------------------------------//
 
     if(isset($_POST['submit'])){ 
         
@@ -28,13 +28,12 @@
                 }
             }else{
                 echo 'identifiants invalide';
-                /*header('Location: index.php')*/;
             }
             
         }
     }
 
-    //Inscription
+    //-------------------------------------------------Inscription-----------------------------------------------//
 
     if(isset($_POST['submit2'])){ 
         
@@ -54,7 +53,7 @@
                 echo "Inscription réussie.";
                 header('Location: page2.php');
             }else{
-                /*header('Location: index.php')*/;
+                echo "Une erreur est survenue.";
             }
             
         }
