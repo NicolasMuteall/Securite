@@ -8,16 +8,24 @@
         
         if(!empty($_POST['pseudo']) && !empty($_POST['mdp'])){
             $_SESSION['pseudo'] = htmlentities($_POST['pseudo']);
+            $password = $_POST['mdp'];
             
-            $reponse = $cnx->prepare('select * from user where pseudo = "'.htmlentities($_POST['pseudo']).'" and password = "'.htmlentities($_POST['mdp']).'"');
+            $reponse = $cnx->prepare('select * from user where pseudo = "'.htmlentities($_POST['pseudo']).'"');
             $reponse -> bindvalue('pseudo', $_POST['pseudo']);
-            $reponse -> bindvalue('password', $_POST['mdp']);
             $reponse -> execute();
-            $results = $reponse->fetch(PDO::FETCH_OBJ);
+            $results = $reponse->fetch(PDO::FETCH_ASSOC);
+            var_dump($results);
 
-            if($results != false){
-                header('Location: page2.php');
+            if($results){
+                $passwordHash = $results['password'];
+                if(password_verify($password, $passwordHash)){
+                    echo 'connexion reussie';
+                    header('Location: page2.php');
+                }else{
+                    echo 'identifiants invalide';
+                }
             }else{
+                echo 'identifiants invalide';
                 /*header('Location: index.php')*/;
             }
             
@@ -30,13 +38,17 @@
         
         if(!empty($_POST['pseudo2']) && !empty($_POST['mdp2'])){
             $_SESSION['pseudo'] = htmlentities($_POST['pseudo2']);
+            $password2 = password_hash($_POST['mdp2'], PASSWORD_DEFAULT);
+
+            var_dump($_POST['mdp2'], $password2);
             
-            $q = $cnx->prepare('INSERT INTO user (pseudo, password) VALUES ("'.htmlentities($_POST['pseudo2']).'", "'.htmlentities($_POST['mdp2']).'")');
+            $q = $cnx->prepare('INSERT INTO user (pseudo, password) VALUES ("'.htmlentities($_POST['pseudo2']).'", "'.$password2.'")');
             $q -> bindvalue('pseudo', htmlentities($_POST['pseudo2']));
-            $q -> bindvalue('password', htmlentities($_POST['mdp2']));
+            $q -> bindvalue('password', $password2);
             $res = $q -> execute();
 
             if($res){
+                echo "Inscription réussie.";
                 header('Location: page2.php');
             }else{
                 /*header('Location: index.php')*/;
