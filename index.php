@@ -7,11 +7,13 @@
     if(isset($_POST['submit'])){ 
         
         if(!empty($_POST['pseudo']) && !empty($_POST['mdp'])){
-            $_SESSION['pseudo'] = htmlentities($_POST['pseudo']);
+            $pseudo = htmlspecialchars(strip_tags($_POST['pseudo']));
+            $_SESSION['pseudo'] = $pseudo;
             $password = $_POST['mdp'];
             
-            $reponse = $cnx->prepare('select * from user where pseudo = "'.htmlentities($_POST['pseudo']).'"');
-            $reponse -> bindvalue('pseudo', $_POST['pseudo']);
+            
+            $reponse = $cnx->prepare('select * from user where pseudo = "'.$pseudo.'"');
+            $reponse -> bindvalue('pseudo', $pseudo);
             $reponse -> execute();
             $results = $reponse->fetch(PDO::FETCH_ASSOC);
             var_dump($results);
@@ -37,13 +39,14 @@
     if(isset($_POST['submit2'])){ 
         
         if(!empty($_POST['pseudo2']) && !empty($_POST['mdp2'])){
-            $_SESSION['pseudo'] = htmlentities($_POST['pseudo2']);
+            $pseudo2 = $_POST['pseudo2'];
+            $_SESSION['pseudo'] = $pseudo2;
             $password2 = password_hash($_POST['mdp2'], PASSWORD_DEFAULT);
 
             var_dump($_POST['mdp2'], $password2);
             
-            $q = $cnx->prepare('INSERT INTO user (pseudo, password) VALUES ("'.htmlentities($_POST['pseudo2']).'", "'.$password2.'")');
-            $q -> bindvalue('pseudo', htmlentities($_POST['pseudo2']));
+            $q = $cnx->prepare('INSERT INTO user (pseudo, password) VALUES ("'.$pseudo2.'", "'.$password2.'")');
+            $q -> bindvalue('pseudo', $pseudo2);
             $q -> bindvalue('password', $password2);
             $res = $q -> execute();
 
@@ -77,7 +80,5 @@
         <input type="text" name="mdp2" placeholder="mot de passe" value="<?php if(isset($_POST['mdp2'])){ echo $_POST['mdp2']; } ?>">
         <input type="submit" name="submit2" value="inscription">
     </form>
-    <a href="page2.php">page2</a>
-    <a href="page3.php">déconnexion</a>
 </body>
 </html>
