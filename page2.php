@@ -14,7 +14,7 @@
         if(!empty($_SESSION['pseudo'])){ 
     ?>
             <p>Bonjour <?= $_SESSION['pseudo'] ?></p>
-            <a href="page3.php">page3</a>
+            <a href="page3.php">Déconnexion</a>
 
         <?php }else {
             
